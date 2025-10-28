@@ -18,7 +18,10 @@ export default function StreamPage() {
 	});
 
 	return (
-		<div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
+		<div className="flex flex-col w-full max-w-md py-24 mx-auto bg-slate-100 rounded-lg mt-7 px-2">
+			<div className="text-blue-500 italic font-semibold text-sm mb-3">
+				Streaming response ...
+			</div>
 			{error && <div className="text-red-500 mb-4">{error.message}</div>}
 			{isLoading && !completion && <div>Loading...</div>}
 			{/* {Display area for text} */}

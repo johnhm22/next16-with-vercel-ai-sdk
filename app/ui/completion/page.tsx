@@ -43,8 +43,10 @@ const CompletionPage = () => {
 	//https://www.youtube.com/watch?v=BQmbuEClULY
 
 	return (
-		<div className="flex flex-col border border-orange-500 w-full max-w-2xl py-24 mx-auto stretch">
-			{/*Display area for completion */}
+		<div className="flex flex-col w-full max-w-md py-24 mx-auto bg-slate-100 rounded-lg mt-7 px-2">
+			<div className="text-red-500 italic font-semibold text-sm mb-3">
+				Non-streaming response ...
+			</div>
 			{error ? <div className="text-red-500 mb-4">{error}</div> : null}
 			{isLoading ? (
 				<div>Loading...</div>
