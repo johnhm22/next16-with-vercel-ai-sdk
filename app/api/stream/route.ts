@@ -1,4 +1,4 @@
-import { streamText } from "ai";
+import { Output, streamText } from "ai";
 import { openai } from "@ai-sdk/openai";
 
 export async function POST(req: Request) {
@@ -8,6 +8,15 @@ export async function POST(req: Request) {
 			model: openai("gpt-4.1-nano"),
 			prompt,
 		});
+
+		result.usage.then((usage) => {
+			console.log({
+				input: usage.inputTokens,
+				output: usage.outputTokens,
+				total: usage.totalTokens,
+			});
+		});
+
 		return result.toUIMessageStreamResponse();
 	} catch (error) {
 		console.error("Error streaming text", error);
