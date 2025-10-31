@@ -7,7 +7,30 @@ export async function POST(req: Request) {
 
 		const result = streamText({
 			model: openai("gpt-4.1-nano"),
-			messages: convertToModelMessages(messages),
+			messages: [
+				// Prompts
+				// {
+				// 	role: "system",
+				// 	content:
+				// 		"You are a helpful coding assistant. Keep response under three sentences. Focus on pracitcal examples. Reply in French.",
+				// },
+				//few-shot learning
+				{
+					role: "system",
+					content: "Convert user questions about code into examples",
+				},
+				{
+					role: "user",
+					content: "How to set up a basic component",
+				},
+				{
+					role: "assistant",
+					content: `export const ComponentExample = () => {\n
+					return (\n<div>Example Component</div>)
+					`,
+				},
+				...convertToModelMessages(messages),
+			],
 		});
 
 		result.usage.then((usage) => {
