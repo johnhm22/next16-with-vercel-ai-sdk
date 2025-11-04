@@ -20,8 +20,6 @@ export default function StructuredDataPage() {
 
 	return (
 		<div className="border border-red-500 flex flex-col mx-auto w-full max-w-2xl pt-12 pb-24">
-			{/* {strucutured data} */}
-
 			{error && <div className="text-red-500 mb-4 px-4">{error.message}</div>}
 			{object?.recipe && (
 				<div className="space-y-6 px-4">
