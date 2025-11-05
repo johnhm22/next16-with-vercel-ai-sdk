@@ -19,7 +19,7 @@ export default function StructuredDataPage() {
 	};
 
 	return (
-		<div className="border border-red-500 flex flex-col mx-auto w-full max-w-2xl pt-12 pb-24">
+		<div className="flex flex-col mx-auto w-full max-w-2xl pt-12 pb-24">
 			{error && <div className="text-red-500 mb-4 px-4">{error.message}</div>}
 			{object?.recipe && (
 				<div className="space-y-6 px-4">
@@ -55,14 +55,14 @@ export default function StructuredDataPage() {
 			)}
 			<form
 				onSubmit={handleSubmit}
-				className="fixed bottom-0 flex flex-col left-0 right-0 p-4 w-full mx-auto max-w-2xl"
+				className="fixed bottom-0 left-0 right-0 p-4 bg-zinc-50 border-zinc-200 w-full mx-auto max-w-2xl"
 			>
 				<div className="flex gap-2">
 					<input
 						type="text"
 						value={dishName}
 						onChange={(e) => setDishName(e.target.value)}
-						className="flex-1 border rounded border-zinc-300 px-2 shadow-lg"
+						className="flex-1 p-2 border rounded border-zinc-300 px-2 shadow-xl"
 						placeholder="dish name"
 					/>
 					{isLoading ? (
