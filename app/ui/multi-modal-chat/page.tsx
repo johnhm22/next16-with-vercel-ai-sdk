@@ -47,7 +47,7 @@ export default function MultiModalPage() {
 									</div>
 								);
 							case "file":
-								if (part.mediaType?.startsWith("image")) {
+								if (part.mediaType?.startsWith("image/")) {
 									return (
 										<Image
 											key={`${message.id}-${idx}`}
@@ -58,7 +58,17 @@ export default function MultiModalPage() {
 										/>
 									);
 								}
-								return null;
+								if (part.mediaType?.startsWith("application/pdf")) {
+									return (
+										<iframe
+											key={`${message.id}-${idx}`}
+											src={part.url}
+											width="500"
+											height="600"
+											title={part.filename ?? `attachment-${idx}`}
+										/>
+									);
+								}
 							default:
 								return null;
 						}
