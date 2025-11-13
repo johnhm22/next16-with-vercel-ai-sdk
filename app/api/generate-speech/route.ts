@@ -8,6 +8,7 @@ export async function POST(req: Request) {
 		const { audio } = await generateSpeech({
 			model: openai.speech("tts-1"),
 			text,
+			voice: "sage",
 		});
 
 		return new Response(audio.uint8Array as BodyInit, {
