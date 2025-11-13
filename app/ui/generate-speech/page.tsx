@@ -7,6 +7,7 @@ export default function GenerateSpeechPage() {
 	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [hasAudio, setHasAudio] = useState(false);
+	const [playback, setPlayback] = useState<number>(1.0);
 
 	const audioUrlRef = useRef<string | null>(null);
 	const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -51,11 +52,6 @@ export default function GenerateSpeechPage() {
 
 			setHasAudio(true);
 			audioRef.current.play();
-
-			// console.log("audio src:", audioRef.current.src);
-			// audio.addEventListener("ended", () => {  We are not cleaning up immediately any more
-			// 	URL.revokeObjectURL(audioUrl);
-			// });
 		} catch (error) {
 			console.error("There has been an error", error);
 			setError(
@@ -69,23 +65,10 @@ export default function GenerateSpeechPage() {
 		}
 	};
 
-	//Trying to detect the play action taking place
-	// useEffect(() => {
-	// 	if (typeof document !== "undefined") {
-	// 		console.log("document loaded");
-	// 		const audio = document.querySelector(audioRef.current);
-	// 		console.log("audioRef.current", audioRef.current);
-	// 		console.log("audio", audio);
-	// 		audio?.addEventListener("play", () => {
-	// 			console.log("event listener fired");
-	// 			console.log("Audio has been played again");
-	// 		});
-	// 	}
-	// }, [hasAudio]);
-
 	//reset audio to the beginning and plays again
 	const replayAudio = () => {
 		if (audioRef.current) {
+			audioRef.current.playbackRate = playback;
 			audioRef.current.currentTime = 0;
 			audioRef.current.play();
 		}
@@ -93,6 +76,7 @@ export default function GenerateSpeechPage() {
 
 	useEffect(() => {
 		return () => {
+			console.log("Component unmounted");
 			if (audioUrlRef.current) {
 				URL.revokeObjectURL(audioUrlRef.current);
 			}
@@ -113,13 +97,39 @@ export default function GenerateSpeechPage() {
 			)}
 
 			{hasAudio && !isLoading && (
-				<button
-					onClick={replayAudio}
-					className="mb-4 bg-gray-200 py-2 px-4 rounded hover:bg-gray-400"
-				>
-					Replay Audio
-				</button>
+				<div className="flex flex-col">
+					<button
+						onClick={replayAudio}
+						className="mb-4 bg-gray-200 py-2 px-4 rounded hover:bg-gray-400"
+					>
+						Replay Audio
+					</button>
+					<div className="flex justify-between">
+						<button
+							onClick={() => setPlayback((playback) => playback + 0.25)}
+							className=" bg-green-200 py-2 px-4 rounded hover:bg-green-400 disabled:bg-gray-100 disabled:text-zinc-300"
+							disabled={playback === 2.0}
+						>
+							+ playback
+						</button>
+						<button
+							onClick={() => setPlayback((playback) => playback - 0.25)}
+							className=" bg-red-200 py-2 px-4 rounded hover:bg-red-400  disabled:bg-gray-100 disabled:text-zinc-300"
+							disabled={playback === 0.25}
+						>
+							- playback
+						</button>
+						<a
+							className="flex justify-center rounded bg-orange-400 hover:bg-orange-500 py-2 px-4"
+							href={audioRef.current!.src}
+							download="ai_audio-file.mp3"
+						>
+							Download audio file
+						</a>
+					</div>
+				</div>
 			)}
+
 			<form
 				onSubmit={handleSubmit}
 				className="fixed bottom-0 left-0 right-0 p-4 border-zinc-200 w-full mx-auto max-w-md"
