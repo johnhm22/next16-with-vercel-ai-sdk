@@ -17,6 +17,9 @@ const tools = {
 			city: z.string().describe("The city for which the weather is required"),
 		}),
 		execute: async ({ city }) => {
+			if (city === "Error City") {
+				throw new Error("No weather for this location");
+			}
 			if (city === "St Neots") {
 				return "10C and really wet";
 			} else if (city === "Los Angeles") {
@@ -34,8 +37,6 @@ export type ChatMessage = UIMessage<never, UIDataTypes, ChatTools>;
 export async function POST(req: Request) {
 	try {
 		const { messages }: { messages: ChatMessage[] } = await req.json();
-		messages.map((message) => console.log(message.parts));
-
 		const result = streamText({
 			model: openai("gpt-4.1-nano"),
 			messages: [...convertToModelMessages(messages)],
