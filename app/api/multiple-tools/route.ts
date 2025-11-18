@@ -53,7 +53,7 @@ export type ChatMessage = UIMessage<never, UIDataTypes, ChatTools>;
 export async function POST(req: Request) {
 	try {
 		const { messages }: { messages: ChatMessage[] } = await req.json();
-		console.log("messages in api: ", messages[0].parts);
+		// console.log("messages in api: ", messages[0].parts);
 		const result = streamText({
 			model: openai("gpt-5-mini"),
 			messages: convertToModelMessages(messages),
