@@ -110,14 +110,14 @@ export default function GenerateSpeechPage() {
 							className=" bg-green-200 py-2 px-4 rounded hover:bg-green-400 disabled:bg-gray-100 disabled:text-zinc-300"
 							disabled={playback === 2.0}
 						>
-							+ playback
+							+ playback speed
 						</button>
 						<button
 							onClick={() => setPlayback((playback) => playback - 0.25)}
 							className=" bg-red-200 py-2 px-4 rounded hover:bg-red-400  disabled:bg-gray-100 disabled:text-zinc-300"
 							disabled={playback === 0.25}
 						>
-							- playback
+							- playback speed
 						</button>
 						<a
 							className="flex justify-center rounded bg-orange-400 hover:bg-orange-500 py-2 px-4"
