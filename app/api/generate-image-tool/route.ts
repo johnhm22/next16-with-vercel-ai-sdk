@@ -12,6 +12,7 @@ import {
 import { z } from "zod";
 
 const tools = {
+	//ts does not pick up generateImage tool when defined here
 	generateImage: tool({
 		description: "Generate an image from a prompt",
 		inputSchema: z.object({
