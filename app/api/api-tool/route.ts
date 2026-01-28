@@ -7,6 +7,7 @@ import {
 	convertToModelMessages,
 	tool,
 	stepCountIs,
+	experimental_generateImage as generateImage,
 } from "ai";
 import { z } from "zod";
 
@@ -18,11 +19,11 @@ const tools = {
 		}),
 		execute: async ({ city }) => {
 			const response = await fetch(
-				`http://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}&q=${city}`
+				`http://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}&q=${city}`,
 			);
 			const data = await response.json();
 
-			console.log("data in api: ", data);
+			// console.log("data in api: ", data);
 
 			const weatherData = {
 				location: {
@@ -39,8 +40,40 @@ const tools = {
 				},
 			};
 
-			console.log("weatherData: ", weatherData);
+			// console.log("weatherData: ", weatherData);
 			return weatherData;
+		},
+	}),
+	//testing defining tool here to see if ts error in generate-image-tool/page.tsx disappears
+	generateImage: tool({
+		description: "Generate an image from a prompt",
+		inputSchema: z.object({
+			prompt: z.string().describe("The prompt to be used to generate an image"),
+		}),
+		execute: async ({ prompt }) => {
+			const { image } = await generateImage({
+				model: openai.imageModel("dall-e-3"),
+				prompt,
+				size: "1024x1024",
+				providerOptions: {
+					openai: {
+						style: "vivid",
+						quality: "hd",
+					},
+				},
+			});
+			return image.base64;
+		},
+		toModelOutput: () => {
+			return {
+				type: "content",
+				value: [
+					{
+						type: "text",
+						text: "generated image in base64",
+					},
+				],
+			};
 		},
 	}),
 };
