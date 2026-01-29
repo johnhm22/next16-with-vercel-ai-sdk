@@ -9,10 +9,10 @@ import {
 	UIDataTypes,
 	InferUITools,
 } from "ai";
-import { string, z } from "zod";
 import ImageKit from "imagekit";
+import { string, z } from "zod";
 
-const uploadImage = async (image: string) => {
+export const uploadImage = async (image: string) => {
 	const imagekit = new ImageKit({
 		urlEndpoint: process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT as string,
 		publicKey: process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY as string,
@@ -59,7 +59,7 @@ const tools = {
 			backgroundPrompt: z
 				.string()
 				.describe(
-					`Description of the new background (e.g. "snow cover", "futuristic landscape", "an alien planet")`
+					`Description of the new background (e.g. "snow cover", "futuristic landscape", "an alien planet")`,
 				),
 		}),
 		outputSchema: z.string().describe("The transformed image URL"),
@@ -86,7 +86,6 @@ export async function POST(req: Request) {
 			tools,
 			stopWhen: stepCountIs(2),
 		});
-
 		return result.toUIMessageStreamResponse();
 	} catch (error) {
 		console.error("Error streaming chat", error);
