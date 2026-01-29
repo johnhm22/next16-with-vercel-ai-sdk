@@ -7,8 +7,8 @@ import {
 	convertToModelMessages,
 	tool,
 	stepCountIs,
-	experimental_createMCPClient as createMCPClient,
 } from "ai";
+import { createMCPClient } from "@ai-sdk/mcp";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { z } from "zod";
 
