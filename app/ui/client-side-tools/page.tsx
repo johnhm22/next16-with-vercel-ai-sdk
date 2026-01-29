@@ -7,11 +7,11 @@ import {
 	lastAssistantMessageIsCompleteWithToolCalls,
 } from "ai";
 import { Image } from "@imagekit/next";
-import type { ChatMessage } from "@/app/api/client-side-tools/route";
+import { type ChatMessage } from "@/app/api/client-side-tools/route";
 
 const buildTransformationUrl = (
 	baseUrl: string,
-	transformation: string
+	transformation: string,
 ): string => {
 	const separator = baseUrl.includes("?") ? "&" : "?";
 	return `${baseUrl}${separator}tr=${transformation}`;
@@ -40,7 +40,7 @@ export default function ClientSideToolsPage() {
 							const transformation = `e-changebg-prompt-${backgroundPrompt}`;
 							const transformedUrl = buildTransformationUrl(
 								imageUrl,
-								transformation
+								transformation,
 							);
 
 							addToolResult({
@@ -48,6 +48,7 @@ export default function ClientSideToolsPage() {
 								toolCallId: toolCall.toolCallId,
 								output: transformedUrl,
 							});
+							// uploadImage(transformedUrl); //test this to see if it works
 						}
 						break;
 					case "removeBackground":
@@ -56,7 +57,7 @@ export default function ClientSideToolsPage() {
 							const transformation = `e-bgremove`;
 							const transformedUrl = buildTransformationUrl(
 								imageUrl,
-								transformation
+								transformation,
 							);
 							addToolResult({
 								tool: "removeBackground",
@@ -68,6 +69,10 @@ export default function ClientSideToolsPage() {
 				}
 			},
 		});
+
+	console.log("*****************");
+	console.log("status: ", status);
+	console.log("*****************");
 
 	console.log("messages: ", messages);
 
