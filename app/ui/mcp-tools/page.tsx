@@ -13,6 +13,8 @@ export default function MCPToolsChatPage() {
 			api: "/api/mcp-tools",
 		}),
 	});
+	console.log("*******************");
+	console.log("messages: ", messages);
 
 	//check details of messages returned from api
 	// messages.map((message) => console.log("MESSAGE: ", message));
@@ -92,7 +94,7 @@ export default function MCPToolsChatPage() {
 								switch (part.state) {
 									case "input-streaming":
 										return (
-											<div key={`${message.id}-getWeather-${idx}`}>
+											<div key={`${message.id}-dynamic-tool-${idx}`}>
 												<div className="text-sm text-zinc-500">
 													Preparing stock price request...
 												</div>
@@ -103,7 +105,7 @@ export default function MCPToolsChatPage() {
 										);
 									case "input-available":
 										return (
-											<div key={`${message.id}-getWeather-${idx}`}>
+											<div key={`${message.id}-dynamic-tool-${idx}`}>
 												<div className="bg-zinc-800/50 border border-zinc-700 rounded text-zinc-500">
 													Fetching stock price....
 												</div>
@@ -111,9 +113,11 @@ export default function MCPToolsChatPage() {
 										);
 									case "output-available":
 										return (
-											<div key={`${message.id}-getWeather-${idx}`}>
+											<div key={`${message.id}-dynamic-tool-${idx}`}>
 												<div className="bg-zinc-400/50 border border-zinc-700 rounded my-3 p-1">
-													<div className="text-sm text-zinc-400">Weather</div>
+													<div className="text-sm text-zinc-400">
+														Stock Price
+													</div>
 													<div className="text-sm text-zinc-700">
 														Stock price retrieved
 													</div>
@@ -122,7 +126,7 @@ export default function MCPToolsChatPage() {
 										);
 									case "output-error":
 										return (
-											<div key={`${message.id}-getWeather-${idx}`}>
+											<div key={`${message.id}-dynamic-tool-${idx}`}>
 												<div className="bg-zinc-400/50 border border-zinc-700 rounded text-zinc-500 my-3 p-1">
 													<div className="text-sm text-red-400">
 														Failed to fetch stock price: {part.errorText}
